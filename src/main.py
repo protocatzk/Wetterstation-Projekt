@@ -25,7 +25,7 @@ class MobileMessstation:
         data = {
             "station_id": self.station_id,
             "timestamp": int(time.time()),
-            "data": {sensor: round(random.uniform(max(0, value - 5), value + 5), 2) if sensor != "Temp" else round(value, 2) for sensor, value in self.sensors.items()}
+            "data": {sensor: round(random.uniform(max(0, value), value + 5), 2) if sensor != "Temp" else round(value, 2) for sensor, value in self.sensors.items()}
         }
         return data
 
