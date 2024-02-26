@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Sensors">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Sensor" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="type" type="xs:string" />
+                            <xs:element name="active" type="xs:string" />
+                            <xs:element name="params">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="sehr_gut" type="xs:string" />
+                                        <xs:element name="gut" type="xs:string" />
+                                        <xs:element name="mittel" type="xs:string" />
+                                        <xs:element name="schlecht" type="xs:string" />
+                                        <xs:element name="sehr_schlecht" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

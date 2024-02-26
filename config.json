@@ -1,0 +1,60 @@
+{
+    "Sensors": [
+    {
+        "type": "Stickstoffdioxid",
+        "active": true,
+        "params": {
+            "sehr gut": 1,
+            "gut": 2,
+            "mittel": 3,
+            "schlecht": 4,
+            "sehr schlecht": 5
+        }
+    },
+    {
+        "type": "Feinstaubsensor",
+        "active": true,        
+        "params": {
+            "sehr gut": 1,
+            "gut": 2,
+            "mittel": 3,
+            "schlecht": 4,
+            "sehr schlecht": 5
+        }
+    },
+    {
+        "type": "Ozonsensor",
+        "active": true,
+        "params": {
+            "sehr gut": 1,
+            "gut": 2,
+            "mittel": 3,
+            "schlecht": 4,
+            "sehr schlecht": 5
+        }
+    },
+    {
+        "type": "Kohlenmonoxidsensor",
+        "active": true,        
+        "params": {
+            "sehr gut": 1,
+            "gut": 2,
+            "mittel": 3,
+            "schlecht": 4,
+            "sehr schlecht": 5
+        }
+    },
+    {
+        "type": "Stickstoffdioxid",
+        "active": true,
+        "params": {
+            "sehr gut": 1,
+            "gut": 2,
+            "mittel": 3,
+            "schlecht": 4,
+            "sehr schlecht": 5
+        }
+    }
+    ]
+  }
+  
