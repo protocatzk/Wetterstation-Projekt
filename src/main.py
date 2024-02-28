@@ -1,10 +1,22 @@
+"""
+Messstation für verschiedene Schadstoffe.
+"""
+__author__ = "Soeren Leutheuser"
+
 import random
+import datetime
 import time
+import json
+import threading
+import logging
 import tkinter as tk
 from tkinter import ttk
-import threading
 
 class MobileMessstation:
+
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    log = logging.getLogger()
+
     def __init__(self, station_id):
         self.station_id = station_id
         self.sensors = {
@@ -16,15 +28,19 @@ class MobileMessstation:
             "Temp": 0
         }
 
+
+
     def parametrisieren(self, params):
         for sensor, value in params.items():
             if sensor in self.sensors:
                 self.sensors[sensor] = value
 
     def messen(self):
+        timestamp = datetime.datetime.now()
+
         data = {
             "station_id": self.station_id,
-            "timestamp": int(time.time()),
+            "timestamp": timestamp.strftime('%H:%M:%S'),
             "data": {sensor: round(random.uniform(max(0, value), value + 5), 2) if sensor != "Temp" else round(value, 2) for sensor, value in self.sensors.items()}
         }
         return data
@@ -39,7 +55,7 @@ class MobileMessstation:
         elif sensor == "CO":
             return self.bewerte_luftqualitaet(value, [1, 2, 5, 10, 20, 40])
         elif sensor == "SO":
-            return self.bewerte_luftqualitaet(value, [20, 50, 100, 200, 350, 500])
+            return self.bewerte_luftqualitaet(value, [0.1, 0.2, 0.5, 1.1, 1.2, 2])
         else:
             return "N/A"
 
@@ -54,13 +70,13 @@ class GUI(tk.Tk):
         super().__init__()
 
         self.title("Mobile Umwelt-Messstationen")
-        self.geometry("400x400")
+        self.geometry("1600x400")
 
         self.create_widgets()
 
     def create_widgets(self):
         self.tree = ttk.Treeview(self)
-        self.tree["columns"] = ("station_id", "timestamp", "NO2", "PM10", "O3", "CO", "SO", "Temp", "Luftqualität NO2", "Luftqualität PM10", "Luftqualität O3", "Luftqualität CO", "Luftqualität SO")
+        self.tree["columns"] = ("station_id", "timestamp", "NO2", "LQ(NO2)", "PM10", "LQ(PM10)", "O3", "LQ(O3)", "CO", "LQ(CO)", "SO",  "LQ(SO)", "Temp")
 
         for column in self.tree["columns"]:
             self.tree.column(column, anchor="nw", width=100)
@@ -77,10 +93,10 @@ class GUI(tk.Tk):
 
         self.tree.configure(yscrollcommand=scrollbar.set)
 
-        start_button = ttk.Button(self, text="Start Simulation", command=self.start_simulation)
+        start_button = ttk.Button(self, text="Start", command=self.start_simulation)
         start_button.pack()
 
-        stop_button = ttk.Button(self, text="Stop Simulation", command=self.stop_simulation)
+        stop_button = ttk.Button(self, text="Stop", command=self.stop_simulation)
         stop_button.pack()
 
         self.is_running = False
@@ -89,7 +105,7 @@ class GUI(tk.Tk):
     def get_color_for_class(self, class_number):
         # Funktion zur Auswahl von Farben je nach Luftgüteklasse
         # Hier kannst du eigene Farbzuweisungen hinzufügen
-        colors = ["green", "lightgreen", "yellow", "orange", "red", "purple"]
+        colors = ["lightgreen", "green", "yellow", "orange", "red", "purple"]
         return colors[class_number - 1] if 1 <= class_number <= len(colors) else "white"
 
     def start_simulation(self):
@@ -102,7 +118,7 @@ class GUI(tk.Tk):
         self.is_running = False
 
     def simulation(self):
-        num_stations = 10
+        num_stations = 2
         stations = [MobileMessstation(station_id=i) for i in range(1, num_stations + 1)]
 
         while self.is_running:
@@ -119,7 +135,7 @@ class GUI(tk.Tk):
                 data = station.messen()
                 self.update_tree(data)
                 self.tree.yview_moveto(1)  # Scrollt zum Ende der Liste
-                time.sleep(1)  # Simuliere einen Intervall von 1 Sekunde zwischen den Messungen
+                time.sleep(1)  # Simuliere einen Intervall von 1 Sekunde zwischen den Messungend
 
     def update_tree(self, data):
         luftqualitaet_no2 = MobileMessstation(data["station_id"]).luftqualitaet_bewerten("NO2", data["data"]["NO2"])
@@ -132,16 +148,16 @@ class GUI(tk.Tk):
             data["station_id"],
             data["timestamp"],
             data["data"]["NO2"],
-            data["data"]["PM10"],
-            data["data"]["O3"],
-            max(0, data["data"]["CO"]),  # Stelle sicher, dass CO nicht negativ ist
-            max(0, data["data"]["SO"]),  # Stelle sicher, dass SO nicht negativ ist
-            round(data["data"]["Temp"], 2),  # Runde Temperatur auf 2 Dezimalstellen
             luftqualitaet_no2,
+            data["data"]["PM10"],
             luftqualitaet_pm10,
+            data["data"]["O3"],
             luftqualitaet_o3,
+            max(0, data["data"]["CO"]),  # Stelle sicher, dass CO nicht negativ ist
             luftqualitaet_co,
-            luftqualitaet_so
+            max(0, data["data"]["SO"]),  # Stelle sicher, dass SO nicht negativ ist
+            luftqualitaet_so,
+            round(data["data"]["Temp"], 2),  # Runde Temperatur auf 2 Dezimalstellen
         )
         self.tree.insert("", "end", values=values, tags=(luftqualitaet_no2, luftqualitaet_pm10, luftqualitaet_o3, luftqualitaet_co, luftqualitaet_so))
 

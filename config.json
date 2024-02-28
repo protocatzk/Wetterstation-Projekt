@@ -1,60 +1,25 @@
 {
-    "Sensors": [
-    {
-        "type": "Stickstoffdioxid",
+    "NO2": {
         "active": true,
-        "params": {
-            "sehr gut": 1,
-            "gut": 2,
-            "mittel": 3,
-            "schlecht": 4,
-            "sehr schlecht": 5
-        }
+        "threshholds": [50, 100, 150, 200, 400, 1000]
     },
-    {
-        "type": "Feinstaubsensor",
-        "active": true,        
-        "params": {
-            "sehr gut": 1,
-            "gut": 2,
-            "mittel": 3,
-            "schlecht": 4,
-            "sehr schlecht": 5
-        }
-    },
-    {
-        "type": "Ozonsensor",
+    "PM10": {
         "active": true,
-        "params": {
-            "sehr gut": 1,
-            "gut": 2,
-            "mittel": 3,
-            "schlecht": 4,
-            "sehr schlecht": 5
-        }
+        "threshholds": [10, 20, 25, 50, 75, 100]
     },
-    {
-        "type": "Kohlenmonoxidsensor",
-        "active": true,        
-        "params": {
-            "sehr gut": 1,
-            "gut": 2,
-            "mittel": 3,
-            "schlecht": 4,
-            "sehr schlecht": 5
-        }
-    },
-    {
-        "type": "Stickstoffdioxid",
+    "O3": {
         "active": true,
-        "params": {
-            "sehr gut": 1,
-            "gut": 2,
-            "mittel": 3,
-            "schlecht": 4,
-            "sehr schlecht": 5
-        }
+        "threshholds": [30, 70, 100, 150, 200, 300]
+    },
+    "CO": {
+        "active": true,
+        "threshholds": [1, 2, 5, 10, 20, 40]
+    },
+    "SO": {
+        "active": true,
+        "threshholds": [0.1, 0.2, 0.5, 1.1, 1.2, 2]
+    },
+    "Temp": {
+        "active": true
     }
-    ]
-  }
-  
+}
