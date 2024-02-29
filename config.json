@@ -1,25 +1,32 @@
-{
-    "NO2": {
+[
+    {
+        "type": "NO2",
         "active": true,
-        "threshholds": [50, 100, 150, 200, 400, 1000]
+        "threshold": [50, 100, 150, 200, 400, 1000]
     },
-    "PM10": {
+    {
+        "type": "PM10",
         "active": true,
-        "threshholds": [10, 20, 25, 50, 75, 100]
+        "threshold": [10, 20, 25, 50, 75, 100]
     },
-    "O3": {
+    {
+        "type": "O3",
         "active": true,
-        "threshholds": [30, 70, 100, 150, 200, 300]
+        "threshold": [30, 70, 100, 150, 200, 300]
     },
-    "CO": {
+    {
+        "type": "CO",
         "active": true,
-        "threshholds": [1, 2, 5, 10, 20, 40]
+        "threshold": [1, 2, 5, 10, 20, 40]
     },
-    "SO": {
+    {
+        "type": "SO",
         "active": true,
-        "threshholds": [0.1, 0.2, 0.5, 1.1, 1.2, 2]
+        "threshold": [0.1, 0.2, 0.5, 1.1, 1.2, 2]
     },
-    "Temp": {
-        "active": true
+    {
+        "type": "TEMP",
+        "active": true,
+        "threshold": [-20, -10, 15, 25, 35, 45]
     }
-}
+]
