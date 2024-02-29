@@ -17,7 +17,7 @@ class WeatherApp:
         self.root.title("Wettermessstation")
 
         self.config_data = self.load_config(config_file)
-        self.sensor_values = {sensor["type"]: random.uniform(-20, 45) for sensor in self.config_data}
+        self.sensor_values = {sensor["type"]: random.uniform(-20, 45) for sensor in self.config_data if sensor['active']}
 
         self.label_vars = {}
 
@@ -56,6 +56,8 @@ class WeatherApp:
 
                 # Speichern der Instanzvariablen für jedes TreeView
                 self.label_vars[sensor["type"]] = {"value_tree": value_tree}
+        else:
+            pass
 
     def get_status(self, sensor_type):
         value = self.sensor_values[sensor_type]
