@@ -1,3 +1,4 @@
+import logging
 import tkinter as tk
 from tkinter import ttk
 import json
@@ -9,9 +10,18 @@ class WeatherApp:
         self.root = root
         self.root.title("Wettermessstation")
 
+        # Logger
+        logging.basicConfig(level=logging.DEBUG,
+                            format='%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s')
+        self.log = logging.getLogger('WMS')
+
         # Lese Konfigurationsdatei
-        with open('config.json', 'r') as file:
-            self.config = json.load(file)
+        try:
+            with open('config.json', 'r') as file:
+                self.config = json.load(file)
+        except FileNotFoundError as e:
+            self.log.error(f'Fehler beim Öffnen der Datei: {e}')
+            exit(1)
 
         # Simulierte Werte initialisieren
         self.sensor_values = {sensor['type']: self.generate_sensor_value(sensor['type']) for sensor in self.config}
@@ -49,7 +59,7 @@ class WeatherApp:
         self.data_label.grid(row=2, column=1, padx=10, pady=5, sticky="w")
 
         # Schließe die GUI an die Aktualisierung der Daten an
-        self.root.after(1000, self.update_values)
+        self.root.after(1750, self.update_values)
 
     def update_values(self):
         # Aktualisiere die simulierten Werte der Sensoren
@@ -78,6 +88,7 @@ class WeatherApp:
         for sensor in self.config:
             if sensor['type'] == sensor_type:
                 sensor['active'] = var.get()
+                self.log.debug(f'Änderung Sensor {sensor['type']}: {sensor['active']}')
 
     def get_threshold_level(self, sensor_type):
         # Bestimme die Stufe für die Bewertung des Sensorwerts
@@ -94,7 +105,7 @@ class WeatherApp:
         # Generiere einen zufälligen Wert im Bereich der Schwellenwerte
         thresholds = [float(t) for t in
                       next(sensor['threshold'] for sensor in self.config if sensor['type'] == sensor_type)]
-        return random.uniform(min(thresholds), max(thresholds))
+        return random.triangular(min(thresholds), max(thresholds))
 
 
 if __name__ == "__main__":
