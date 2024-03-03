@@ -1,6 +1,11 @@
+"""
+Wettermessstation zur Messung von Schadstoffen
+Verwendet das Tkinter Modul für die Grafische Benutzeroberfläche
+"""
+
 import logging
-import tkinter as tk
-from tkinter import ttk
+import tkinter as tk        # GUI
+from tkinter import ttk     # Labels, Frames
 import json
 import random
 
@@ -17,7 +22,7 @@ class WeatherApp:
 
         # Lese Konfigurationsdatei
         try:
-            with open('config.json', 'r') as file:
+            with open('../config.json', 'r') as file:
                 self.config = json.load(file)
         except FileNotFoundError as e:
             self.log.error(f'Fehler beim Öffnen der Datei: {e}')
