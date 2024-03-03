@@ -18,7 +18,7 @@ class WeatherApp:
         # Logger
         logging.basicConfig(level=logging.DEBUG,
                             format='%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s')
-        self.log = logging.getLogger('WMS')
+        self.log = logging.getLogger('')
 
         # Lese Konfigurationsdatei
         try:
@@ -49,6 +49,7 @@ class WeatherApp:
         instruction_frame = ttk.LabelFrame(self.root, text="Anweisungen für Sensoren")
         instruction_frame.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
 
+        # Werte, die zur Messung verwendet werden
         instruction_label = ttk.Label(instruction_frame, text="Grenzwerte für Bewertung der Luftqualität:")
         instruction_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
 
