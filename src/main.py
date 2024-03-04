@@ -1,11 +1,11 @@
 """
-Wettermessstation zur Messung von Schadstoffen
-Verwendet das Tkinter Modul für die Grafische Benutzeroberfläche
+Wettermessstation zur Messung von Schadstoffen. Verwendet das Tkinter Modul
+für die Grafische Benutzeroberfläche.
 """
 
 import logging
-import tkinter as tk        # GUI
-from tkinter import ttk     # Labels, Frames
+import tkinter as tk  # GUI
+from tkinter import ttk  # Labels, Frames
 import json
 import random
 
@@ -47,11 +47,7 @@ class WeatherApp:
 
         # Anweisungen
         instruction_frame = ttk.LabelFrame(self.root, text="Anweisungen für Sensoren")
-        instruction_frame.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
-
-        # Werte, die zur Messung verwendet werden
-        instruction_label = ttk.Label(instruction_frame, text="Grenzwerte für Bewertung der Luftqualität:")
-        instruction_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+        instruction_frame.grid(row=2, column=1, padx=10, pady=10, sticky="nsew")
 
         for sensor in self.config:
             threshold_label = ttk.Label(instruction_frame, text=f"{sensor['type']}: {sensor['threshold']}")
@@ -59,10 +55,10 @@ class WeatherApp:
 
         # Simulierte Sensordaten und Bewertung
         data_frame = ttk.LabelFrame(self.root, text="Sensordaten und Bewertung")
-        data_frame.grid(row=2, column=1, padx=10, pady=10, sticky="nsew")
+        data_frame.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
 
         self.data_label = ttk.Label(data_frame, text="")
-        self.data_label.grid(row=2, column=1, padx=10, pady=5, sticky="w")
+        self.data_label.grid(row=1, column=1, padx=10, pady=5, sticky="w")
 
         # Schließe die GUI an die Aktualisierung der Daten an
         self.root.after(1750, self.update_values)
@@ -70,9 +66,10 @@ class WeatherApp:
     def update_values(self):
         # Aktualisiere die simulierten Werte der Sensoren
         data_str = ""
+
         for sensor_type, value in self.sensor_values.items():
             if self.is_sensor_active(sensor_type):
-                data_str += f"{sensor_type}: {value:.2f} - Stufe: {self.get_threshold_level(sensor_type)}  \n"
+                data_str += f"{sensor_type}: {value:.2f} | Stufe: {self.get_threshold_level(sensor_type)}\n\n"
                 # Zufällige Aktualisierung des Werts
                 self.sensor_values[sensor_type] = self.generate_sensor_value(sensor_type)
 
