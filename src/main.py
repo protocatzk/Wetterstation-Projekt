@@ -37,17 +37,17 @@ class WeatherApp:
     def create_widgets(self):
         # Sensoren aktivieren/deaktivieren
         toggle_frame = ttk.LabelFrame(self.root, text="Sensoren aktivieren/deaktivieren")
-        toggle_frame.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
+        toggle_frame.grid(row=3, column=2, padx=10, pady=10, sticky="nsew")
 
         for sensor in self.config:
             sensor_var = tk.BooleanVar(value=sensor['active'])
             sensor_checkbox = ttk.Checkbutton(toggle_frame, text=sensor['type'], variable=sensor_var,
                                               command=lambda s=sensor['type'], v=sensor_var: self.toggle_sensor(s, v))
-            sensor_checkbox.pack(side=tk.TOP, padx=10, pady=5)
+            sensor_checkbox.pack(side=tk.LEFT, padx=0, pady=5)
 
         # Anweisungen
         instruction_frame = ttk.LabelFrame(self.root, text="Anweisungen für Sensoren")
-        instruction_frame.grid(row=2, column=1, padx=10, pady=10, sticky="nsew")
+        instruction_frame.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
 
         for sensor in self.config:
             threshold_label = ttk.Label(instruction_frame, text=f"{sensor['type']}: {sensor['threshold']}")
